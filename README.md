@@ -17,3 +17,12 @@ Ces métriques sont collectées et visualisées via des outils d’observabilit�
 
 ## 📌 Statut
 🔧 En cours de développement
+
+## 📁 Structure du projet
+
+- `app/` : code source Python
+- `tests/` : tests automatisés
+- `docker/` : configurations Docker additionnelles
+- `scripts/` : scripts Bash utilitaires
+- `.github/workflows/` : pipelines CI/CD
+
