@@ -1,5 +1,10 @@
 name: CI - Test, Build & Push Docker Image
 
+env:
+  IMAGE_NAME: infra-monitoring-devops
+  IMAGE_TAG: v1.0.0
+
+
 on:
   push:
     branches:
@@ -35,9 +40,12 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/infra-monitoring-devops:latest .
+            docker build -t ${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME:${IMAGE_TAG} .
+            docker tag ${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME:${IMAGE_TAG} \
+               ${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME:latest
 
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/infra-monitoring-devops:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME:${IMAGE_TAG}
+          docker push ${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME:latest
 
