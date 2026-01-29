@@ -36,14 +36,23 @@ jobs:
       - name: Install BATS
         run: sudo apt-get update && sudo apt-get install -y bats
 
+      - name: Run Docker container
+        run: |
+              docker run -d 
+                --name infra-monitoring-test 
+                -p 5000:5000 \
+               ${{ secrets.DOCKER_USERNAME }}/infra-monitoring-devops:v1.0.0
+              sleep 5
+
       - name: Run BATS tests
         run: |
-              docker run -d --name infra-monitoring-test -p 5000:5000 \
-               ${{ secrets.DOCKER_USERNAME }}/infra-monitoring-devops:v1.0.0
+          ls
+          ls tests-bats
+          bats tests-bats/test_metrics.bats
 
-               bats tests-bats/test_metrics.bats
-
-               docker rm -f infra-monitoring-test
+      - name: Cleanup container
+        if: always()
+        run: docker rm -f infra-monitoring-test
 
   
 
